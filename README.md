@@ -164,7 +164,7 @@ tesseract --version
 ```
 If installed correctly, you should see the Tesseract version information.
 
-## 🔧 Installation
+## Installation
 
 1. **Clone or navigate to the project directory:**
 ```bash
@@ -415,19 +415,6 @@ Found 0 matches
 2. Use a `.env` file with `python-dotenv`
 3. Add `.env` to `.gitignore`
 4. Never commit API keys to version control
-
-## Future Improvements
-
-- [ ] Implement semantic similarity using sentence transformers
-- [ ] Add support for video content analysis
-- [ ] Implement API response caching
-- [ ] Add proper logging framework
-- [ ] Write comprehensive unit tests
-- [ ] Move API keys to environment variables
-- [ ] Add CLI arguments for customization
-- [ ] Implement parallel processing for OCR
-- [ ] Add web interface for easier interaction
-
 
 ---
 # 14. Reference:
