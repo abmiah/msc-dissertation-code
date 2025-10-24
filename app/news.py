@@ -5,10 +5,10 @@ articles from NewsAPI.org, NewsData.io, TheNewsAPI, and WorldNewsAPI. Each funct
 The main function, fetch_news_articles, aggregates articles from all enabled sources based on the provided query. 
 """
 from typing import List
+import requests
 from newsapi import NewsApiClient
 from .config import LANGUAGE, PAGE_SIZE
 from .models import NewsArticle
-import os
 
 # Import NEWS_API_SOURCES from the main newsAPI.py for now (could be moved to config)
 """ This will import NEWS_API_SOURCES from newsAPI module if available, otherwise initializes it as an empty dictionary. 
@@ -52,7 +52,7 @@ def fetch_from_newsapi_org(query, api_key, language=LANGUAGE, page_size=PAGE_SIZ
 It processes the API response and returns a list of NewsArticle objects. This also import requests library for making HTTP requests. 
 The try-except block is used to handle any exceptions that may occur during the API request or processing. """
 def fetch_from_newsdata_io(query, api_key, language=LANGUAGE, page_size=10):
-    import requests
+    """Fetches news articles from NewsData.io using the provided query and API key."""
     try:
         # NewsData.io uses 'size' parameter, not 'page_size'
         url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={query}&language={language}&size={page_size}"
@@ -83,9 +83,7 @@ def fetch_from_newsdata_io(query, api_key, language=LANGUAGE, page_size=10):
 """ This function processes the API response and returns a list of NewsArticle objects, 
 also imports the requests library for making HTTP requests. """
 def fetch_from_thenewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE):
-    import requests
-
-    """ The try-except block is used to handle any exceptions that may occur during the API request or processing. """
+    """Fetches news articles from TheNewsAPI using the provided query and API key."""
     try:
         url = f"https://api.thenewsapi.com/v1/news/all?api_token={api_key}&search={query}&language={language}&limit={page_size}"
         response = requests.get(url, timeout=10)
@@ -104,11 +102,8 @@ def fetch_from_thenewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE
         return []
 
 
-""" This function fetches news articles from WorldNewsAPI using the provided query and API key. 
-It processes the API response and returns a list of NewsArticle objects. This also import requests library for making HTTP requests. 
-This also uses a try-except block to handle any exceptions that may occur during the API request or processing. """
 def fetch_from_worldnewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE):
-    import requests
+    """Fetches news articles from WorldNewsAPI using the provided query and API key."""
     try:
         url = f"https://api.worldnewsapi.com/search-news?api-key={api_key}&text={query}&language={language}&number={page_size}"
         response = requests.get(url, timeout=10)

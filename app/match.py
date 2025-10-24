@@ -19,6 +19,7 @@ from .config import SIMILARITY_THRESHOLD
 and limiting the number of keywords returned. This function helps in generating effective search queries
 for fetching news articles related to the content items. """
 def extract_keywords(text: str) -> str:
+    """Extracts significant keywords from text by removing common words."""
     common = {
         'the','a','an','and','or','but','in','on','at','to','for','is','are','was','were','be','been','being','have','has','had'
     }
@@ -32,6 +33,7 @@ using the SequenceMatcher class from the difflib module. The function returns a 
 representing the similarity ratio between the two strings, which is used to determine how closely
 the content item matches a news article. """
 def similarity(a: str, b: str) -> float:
+    """Computes a similarity score between two strings using SequenceMatcher."""
     return SequenceMatcher(None, (a or '').lower(), (b or '').lower()).ratio()
 
 
@@ -43,6 +45,7 @@ a similarity score for each comparison. If the similarity score exceeds a predef
 a MatchResult object is created and added to the results list. The function returns a list of MatchResult 
 objects representing the successful matches. """
 def match_items_with_news(items: List[ContentItem], fetcher) -> List[MatchResult]:
+    """Matches content items with news articles using similarity scoring."""
     results: List[MatchResult] = []
     for item in items:
         # ONLY use Content_Info from database (or OCR text if available)

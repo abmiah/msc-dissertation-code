@@ -6,10 +6,11 @@ and news stories to help identify possible misinformation or related reports.
 
 """ Import necessary libraries and modules"""
 import sqlite3
+import os
+import requests
 from newsapi import NewsApiClient
 from difflib import SequenceMatcher
 from facebookAd import FacebookAdScanner
-import os
 
 
 # Database configuration
@@ -42,9 +43,6 @@ NEWS_API_SOURCES = {
         'url': 'https://worldnewsapi.com'
     }
 }
-
-# Legacy single API key (for backwards compatibility)
-NEWS_API_KEY = NEWS_API_SOURCES['newsapi_org']['api_key']
 
 
 def get_db_connection(db_path=DB_NAME):
@@ -106,11 +104,6 @@ def fetch_from_newsapi_org(query, api_key, language='en', page_size=20):
 """ This function named fetch_from_newsdata_io fetches articles from NewsData.io API. """
 def fetch_from_newsdata_io(query, api_key, language='en', page_size=10):
     """ Fetch from NewsData.io """
-
-    """ Import requests library, this will be used to make HTTP requests to the NewsData.io API. """
-    import requests
-
-    """ A try and except block is placed here to handle any potential errors that may occur during the API request. """
     try:
         url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={query}&language={language}&page_size={page_size}"
         response = requests.get(url, timeout=10)
@@ -135,9 +128,6 @@ def fetch_from_newsdata_io(query, api_key, language='en', page_size=10):
 """ This function named fetch_from_thenewsapi fetches articles from TheNewsAPI.com API and also handles errors. """
 def fetch_from_thenewsapi(query, api_key, language='en', page_size=20):
     """Fetch from TheNewsAPI.com"""
-    import requests
-
-    """ A try and except block is placed here to handle any potential errors that may occur during the API request. """
     try:
         url = f"https://api.thenewsapi.com/v1/news/all?api_token={api_key}&search={query}&language={language}&limit={page_size}"
         response = requests.get(url, timeout=10)
@@ -161,9 +151,6 @@ def fetch_from_thenewsapi(query, api_key, language='en', page_size=20):
 """ The newsAPI.py function named fetch_from_worldnewsapi fetches articles from WorldNewsAPI.com API. """
 def fetch_from_worldnewsapi(query, api_key, language='en', page_size=20):
     """Fetch from WorldNewsAPI.com"""
-    import requests
-
-    """ A try and except block is placed here to handle any potential errors that may occur during the API request. """
     try:
         url = f"https://api.worldnewsapi.com/search-news?api-key={api_key}&text={query}&language={language}&number={page_size}"
         response = requests.get(url, timeout=10)

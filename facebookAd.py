@@ -13,7 +13,6 @@ import os
 import cv2
 from PIL import Image
 import pytesseract
-import numpy as np
 
 """ 
 This class will first scan the ads in the facebook user domain. If ads are found, it will store the details in the database.
@@ -39,13 +38,7 @@ class FacebookAdScanner:
         for keyword in self.ad_keywords:
             keyword_lower = keyword.lower()
             if keyword_lower in text_lower:
-                """ The import re statement is used here to perform case-insensitive matching of the keyword in the text. """
-                import re
-                match = re.search(keyword, text, re.IGNORECASE)
-                if match:
-                    return (True, match.group(0))
-                else:
-                    return (True, keyword)
+                return (True, keyword)
         return False
 
     def ocr_with_preprocessing(self, image_path, upscale_fx=2, upscale_fy=2):
@@ -57,10 +50,7 @@ class FacebookAdScanner:
         if img is None:
             raise FileNotFoundError(f"Could not open or find image: {image_path}")
 
-        # Optionally upscale to help OCR
-        """ This section upscales the image to improve OCR accuracy. 
-        As the image resolution increases, the OCR engine can better recognise faint text. 
-        """
+        # Upscale to improve OCR accuracy for faint text
         img = cv2.resize(img, (0, 0), fx=upscale_fx, fy=upscale_fy)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -84,7 +74,7 @@ class FacebookAdScanner:
 """ If run as main, demonstrate the OCR and ad keyword detection. """
 if __name__ == "__main__":
     scanner = FacebookAdScanner()
-    filepath = "/Users/amrol/Desktop/MSc Cyber Security/10. Dissertation/Dissertation Code/image_and_video_directory/hq720.jpg"
+    filepath = "image_and_video_directory/hq720.jpg"
     ocr_results = scanner.ocr_with_preprocessing(filepath)
     for i, text in enumerate(ocr_results):
         print(f"----- Preprocessing Version {i+1} -----\n{text}")

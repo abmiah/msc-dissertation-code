@@ -28,6 +28,7 @@ potential misinformation. """
 4. Displays the matched items along with their similarity scores and article details."""
 
 def run_pipeline():
+    """Orchestrates the entire verification pipeline: load data, enrich with OCR, fetch news, and match."""
     print("Loading items from DB...")
     items = db.fetch_content_items()
     print(f"Loaded {len(items)} items.")

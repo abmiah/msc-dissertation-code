@@ -19,6 +19,7 @@ Within the function is has an if statement to check if the file exists before at
 to handle any exceptions that may occur during the OCR process, ensuring that the program continues to run smoothly even if some files cannot be processed.
 """
 def enrich_with_ocr(items: List[ContentItem]) -> List[ContentItem]:
+    """Enriches a list of ContentItem objects with OCR text extracted from their associated image files."""
     scanner = FacebookAdScanner()
     for item in items:
         try:
