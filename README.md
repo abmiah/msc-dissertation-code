@@ -407,15 +407,6 @@ Found 0 matches
 ```
 **Solution:** Ensure files are in `image_and_video_directory/` or database contains full paths.
 
-## 🔐 Security Notes
-
-⚠️ **Important:** This codebase currently stores API keys in source files. For production use:
-
-1. Move API keys to environment variables
-2. Use a `.env` file with `python-dotenv`
-3. Add `.env` to `.gitignore`
-4. Never commit API keys to version control
-
 ---
 # 14. Reference:
 
