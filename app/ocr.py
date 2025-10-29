@@ -34,3 +34,4 @@ def enrich_with_ocr(items: List[ContentItem]) -> List[ContentItem]:
         except Exception:
             item.ocr_text = None
     return items
+

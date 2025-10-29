@@ -61,3 +61,5 @@ def clear_table():
         c = conn.cursor()
         c.execute("DELETE FROM fbContentType")
         conn.commit()
+
+        

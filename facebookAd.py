@@ -89,3 +89,5 @@ if __name__ == "__main__":
     print("----- Basic OCR result -----")
     print(basic_text)
     print(f"Contains ad keywords: {scanner.contains_ad_keywords(basic_text)}")
+
+    

@@ -155,3 +155,4 @@ def fetch_news_articles(query: str) -> List[NewsArticle]:
     if NEWS_API_SOURCES.get('worldnewsapi', {}).get('enabled'):
         all_articles.extend(fetch_from_worldnewsapi(query, NEWS_API_SOURCES['worldnewsapi']['api_key']))
     return all_articles
+

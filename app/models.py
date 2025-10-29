@@ -51,3 +51,5 @@ class MatchResult:
     item: ContentItem
     article: NewsArticle
     similarity: float
+
+

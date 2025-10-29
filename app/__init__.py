@@ -44,3 +44,4 @@ __all__ = [
 
 # Optional, lightweight package metadata
 __version__ = "0.1.0"
+

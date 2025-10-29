@@ -75,3 +75,4 @@ def match_items_with_news(items: List[ContentItem], fetcher) -> List[MatchResult
                 results.append(MatchResult(item=item, article=art, similarity=score))
                 print(f"    ✓ Match! Score: {score:.2%} - {art.title[:60]}")
     return results
+
