@@ -1,7 +1,7 @@
-""" The app/config.py module defines configuration constants for the application,
-including database name, scan directory, news API key, similarity threshold,
-page size, and language settings. These constants are used throughout the application
-to maintain consistent configuration values. 
+""" 
+The app/config.py module outlines the application's configuration constants, including the database name, 
+scan directory, news API key, similarity threshold, page size, and language settings. These constants are 
+used consistently throughout the application to maintain uniform configuration values.
 
 The variables defined in this module include:
 - DB_NAME: The name of the SQLite database file.

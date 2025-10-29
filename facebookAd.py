@@ -1,11 +1,12 @@
 """ 
-This section of code is designed to scan a Facebook user domain to identify any advertisements. If advertisements are found, 
-the details will be retrieved and stored in the 'fbContentType.db' database for further analysis. Since this is a hypothetical 
-example, the actual process of scanning Facebook for ads is not included. Instead, the code will search the local file system of 
-this project for demo media to simulate the presence of ads and run OCR on the image using Tesseract if available.
+This section of code is designed to scan a Facebook user domain to identify any advertisements. 
+If advertisements are found, their details will be retrieved and stored in a database called 'fbContentType.db' 
+for further analysis. Since this is a hypothetical example, the actual process of scanning Facebook for ads is 
+not included. Instead, the code will search the local file system of this project for demo media to simulate 
+the presence of ads and will run optical character recognition (OCR) on the images using Tesseract, if available.
 
-Note: pytesseract is a wrapper around the native 'tesseract' binary. One must have the 'tesseract' executable installed and
-available on PATH for OCR to work.
+Please note that `pytesseract` is a wrapper for the native `tesseract` binary. It is necessary to have the `tesseract` 
+executable installed and available in your system's PATH for OCR to function properly.
 """
 
 """ Import necessary libraries to handle file operations and database interactions. """
@@ -15,9 +16,10 @@ from PIL import Image
 import pytesseract
 
 """ 
-This class will first scan the ads in the facebook user domain. If ads are found, it will store the details in the database.
-Because this is a hypothetical example, the actual scanning process is not implemented. Instead, it will look for specific files in the
-local file system within the 'image_and_video_directory/'. The information on the ad will be stored in the 'fbContentType.db' database.
+This class will initially scan for advertisements within the Facebook user domain. If any ads are found, the details 
+will be stored in a database. Since this is a hypothetical example, the actual scanning process has not been implemented. 
+Instead, the class will search for specific files in the local file system located in the 'image_and_video_directory/'. 
+The information about each advertisement will be saved in the 'fbContentType.db' database.
 """
 class FacebookAdScanner:
     def __init__(self, ad_keywords=None):

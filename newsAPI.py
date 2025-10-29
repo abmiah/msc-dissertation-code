@@ -1,10 +1,9 @@
 """
-This script utilises the News API library to retrieve news articles and compares them with 
-data from the fbContentType.db database. It looks for similarities between Facebook ad content 
-and news stories to help identify possible misinformation or related reports.
+This script uses the News API library to retrieve news articles and compares them with data from the fbContentType.db database. 
+It searches for similarities between Facebook ad content and news stories to help identify potential misinformation or related reports.
 """
 
-""" Import necessary libraries and modules"""
+""" Import necessary libraries and modules """
 import sqlite3
 import os
 import requests
@@ -17,8 +16,10 @@ from facebookAd import FacebookAdScanner
 DB_NAME = 'fbContentType.db'
 
 
-""" The NEW_API_SOURCES dictionary defines multiple news API sources with their respective API keys,
-enabling easy switching and fallback between different providers. """
+""" 
+The NEW_API_SOURCES dictionary outlines various news API sources along with their corresponding API keys, 
+allowing for seamless switching and fallback between different providers. 
+"""
 # Multiple News API sources configuration
 # Configure your API keys below (get free keys from respective websites)
 NEWS_API_SOURCES = {
@@ -46,14 +47,14 @@ NEWS_API_SOURCES = {
 
 
 def get_db_connection(db_path=DB_NAME):
-    """Establishes a connection to the SQLite database."""
+    """ Establishes a connection to the SQLite database. """
     return sqlite3.connect(db_path)
 
 
 def fetch_content_from_database():
     """
-    Fetches all content from the fbContentType database.
-    Returns a list of dictionaries containing file info and content.
+    Retrieves all content from the fbContentType database and returns a list of 
+    dictionaries containing file information and content.
     """
     with get_db_connection() as conn:
         cursor = conn.cursor()
@@ -83,8 +84,10 @@ def fetch_content_from_database():
             })
         return content_list
 
-""" The fetch_media_content function scans a directory for media files,
-extracts OCR text from images, and identifies potential Facebook ads based on filenames. """
+""" 
+The fetch_media_content function scans a directory for media files, 
+extracts text from images using OCR, and identifies potential Facebook ads based on their filenames. 
+"""
 def fetch_from_newsapi_org(query, api_key, language='en', page_size=20):
     """Fetch from NewsAPI.org"""
     try:
@@ -188,8 +191,10 @@ def fetch_news_articles(query, language='en', page_size=20):
     sources_tried = []
     
     # Try each enabled source
-    """ The various if statements below check if each news API source is enabled. The if enabled block
-    fetches articles from that source and appends them to the all_articles list. """
+    """ 
+    The various if statements below check if each news API source is enabled. The if enabled block
+    fetches articles from that source and appends them to the all_articles list. 
+    """
     if NEWS_API_SOURCES['newsapi_org']['enabled']:
         sources_tried.append('NewsAPI.org')
         articles = fetch_from_newsapi_org(
@@ -261,9 +266,11 @@ def extract_keywords(content_info):
         list: List of keyword strings.
     """
     # Remove common words and extract meaningful keywords
-    """ The code has included a set of common words to filter out from the content_info. 
-    The reason for this is to focus on more significant words that are likely to yield better 
-    search results when querying news articles. """
+    """ 
+    The code includes a list of common words to filter from the content_info. 
+    This is done to concentrate on more significant words that are likely to 
+    produce better search results when querying news articles.
+    """
     
     common_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 
                    'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had'}
@@ -274,8 +281,10 @@ def extract_keywords(content_info):
     return keywords[:5]  # Return top 5 keywords
 
 
-""" The function named cross_match_content_with_news cross-matches database content with news articles
-from News API based on a similarity threshold. """
+""" 
+The function named cross_match_content_with_news matches database content with 
+news articles from News API based on a specified similarity threshold.
+"""
 def cross_match_content_with_news(db_content_list, similarity_threshold=0.3):
     """
     Cross-matches database content with news articles from News API.
@@ -290,10 +299,12 @@ def cross_match_content_with_news(db_content_list, similarity_threshold=0.3):
     """ Initialize empty list to hold matches. """
     matches = []
 
-    """ The for loop below iterates through each content item in the database content list. 
-    For each content item, it extracts keywords, constructs a search query, fetches related 
-    news articles, and compares the content with each article to calculate similarity. If the 
-    similarity exceeds the defined threshold, a match is recorded."""
+    """ 
+    The for loop below iterates through each content item in the database's content list. 
+    For each item, it extracts keywords, constructs a search query, fetches related news articles, and 
+    compares the content with each article to calculate their similarity. 
+    If the similarity exceeds the defined threshold, a match is recorded.
+    """
 
     for content in db_content_list:
         print(f"\n{'='*80}")
@@ -310,8 +321,10 @@ def cross_match_content_with_news(db_content_list, similarity_threshold=0.3):
         # Fetch related news articles
         articles = fetch_news_articles(query)
 
-        """ An if block checks if any articles were returned from the fetch_news_articles function. 
-        If no articles are found, it prints a message and continues to the next content item."""
+        """ 
+        An if block checks if any articles were returned from the fetch_news_articles function. 
+        If no articles are found, it prints a message and continues to the next content item.
+        """
         if not articles:
             print("No news articles found for this content.")
             continue
@@ -374,10 +387,12 @@ def display_matches(matches):
 
 
 
-""" The main() function executes the news API cross-matching process. This also allows users to see
-how the script works and what results it produces. """
+""" 
+The main() function executes the news API cross-matching process. This also allows users to see
+how the script works and what results it produces. 
+"""
 def main():
-    """Main function to run the news API cross-matching process."""
+    """ Main function to run the news API cross-matching process. """
     print("="*80)
     print("NEWS API CONTENT MATCHER")
     print("="*80)
@@ -422,8 +437,10 @@ def main():
     print("="*80)
 
 
-""" The if __name__ == '__main__': block ensures that the main() function is called only when the script is run directly,
-and not when it is imported as a module in another script. This allows users to see how the script works and what results 
-it produces. This is also common practice in Python programming. """
+""" 
+The `if __name__ == '__main__':` block ensures that the `main()` function is called only when the script is 
+executed directly, not when it is imported as a module into another script. This allows users to understand 
+how the script works and the results it produces. This practice is common in Python programming.
+"""
 if __name__ == '__main__':
     main()

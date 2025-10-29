@@ -1,8 +1,9 @@
 """ 
-This script provides functions to fetch news articles from various news APIs based on a given query. 
-It begins by importing necessary libraries and the NewsArticle model. The script defines individual functions to fetch
-articles from NewsAPI.org, NewsData.io, TheNewsAPI, and WorldNewsAPI. Each function handles API requests, processes responses, and returns a list of NewsArticle objects.
-The main function, fetch_news_articles, aggregates articles from all enabled sources based on the provided query. 
+This script includes functions to fetch news articles from various news APIs based on a specified query. 
+It starts by importing the necessary libraries and the NewsArticle model. The script defines separate 
+functions to retrieve articles from NewsAPI.org, NewsData.io, TheNewsAPI, and WorldNewsAPI. Each function 
+handles API requests, processes the responses, and returns a list of NewsArticle objects. The main function, 
+`fetch_news_articles`, consolidates articles from all active sources based on the provided query.
 """
 from typing import List
 import requests
@@ -11,20 +12,25 @@ from .config import LANGUAGE, PAGE_SIZE
 from .models import NewsArticle
 
 # Import NEWS_API_SOURCES from the main newsAPI.py for now (could be moved to config)
-""" This will import NEWS_API_SOURCES from newsAPI module if available, otherwise initializes it as an empty dictionary. 
-This allows the script to function even if the newsAPI module is not present, providing a fallback mechanism. 
-This is also wrapped around an try-except block to handle the potential ImportError. """
+""" 
+This code attempts to import `NEWS_API_SOURCES` from the `newsAPI` module if it is available. If the module 
+is not present, it initializes `NEWS_API_SOURCES` as an empty dictionary. This fallback mechanism ensures 
+that the script can still function without the `newsAPI` module. The import statement is enclosed in a 
+try-except block to gracefully handle any potential `ImportError`.
+"""
 try:
     from newsAPI import NEWS_API_SOURCES
 except ImportError:
     NEWS_API_SOURCES = {}
 
 
-""" the fetch_from_newsapi_org function fetches news articles from NewsAPI.org using the provided query and API key. 
-It processes the API response and returns a list of NewsArticle objects. """
+""" 
+The fetch_from_newsapi_org function obtains news articles from NewsAPI.org using a specified query and API key.
+It processes the API response and returns a list of NewsArticle objects.
+"""
 def fetch_from_newsapi_org(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE):
 
-    """ The block is wrapped in a try-except to handle any exceptions that may occur during the API request or processing."""
+    """ The block is wrapped in a try-except to handle any exceptions that may occur during the API request or processing. """
     try:
         newsapi = NewsApiClient(api_key=api_key)
         response = newsapi.get_everything(
@@ -48,11 +54,14 @@ def fetch_from_newsapi_org(query, api_key, language=LANGUAGE, page_size=PAGE_SIZ
         print(f"  ⚠️ NewsAPI.org error: {e}")
         return []
 
-""" The function name fetch_from_newsdata_io fetches news articles from NewsData.io using the provided query and API key. 
-It processes the API response and returns a list of NewsArticle objects. This also import requests library for making HTTP requests. 
-The try-except block is used to handle any exceptions that may occur during the API request or processing. """
+""" 
+The function `fetch_from_newsdata_io` is designed to retrieve news articles from NewsData.io using a specified query and API key. 
+It processes the response from the API and returns a list of `NewsArticle` objects. To facilitate making HTTP requests, the function 
+imports the requests library. Additionally, a try-except block is implemented to handle any exceptions that may occur during the 
+API request or while processing the response.
+"""
 def fetch_from_newsdata_io(query, api_key, language=LANGUAGE, page_size=10):
-    """Fetches news articles from NewsData.io using the provided query and API key."""
+    """ Fetches news articles from NewsData.io using the provided query and API key. """
     try:
         # NewsData.io uses 'size' parameter, not 'page_size'
         url = f"https://newsdata.io/api/1/news?apikey={api_key}&q={query}&language={language}&size={page_size}"
@@ -80,10 +89,12 @@ def fetch_from_newsdata_io(query, api_key, language=LANGUAGE, page_size=10):
         print(f"  ⚠️ NewsData.io error: {e}")
         return []
 
-""" This function processes the API response and returns a list of NewsArticle objects, 
-also imports the requests library for making HTTP requests. """
+""" 
+This function processes the API response and returns a list of NewsArticle objects. 
+It also imports the requests library for making HTTP requests.
+"""
 def fetch_from_thenewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE):
-    """Fetches news articles from TheNewsAPI using the provided query and API key."""
+    """ Fetches news articles from TheNewsAPI using the provided query and API key."""
     try:
         url = f"https://api.thenewsapi.com/v1/news/all?api_token={api_key}&search={query}&language={language}&limit={page_size}"
         response = requests.get(url, timeout=10)
@@ -103,7 +114,7 @@ def fetch_from_thenewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE
 
 
 def fetch_from_worldnewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SIZE):
-    """Fetches news articles from WorldNewsAPI using the provided query and API key."""
+    """ Fetches news articles from WorldNewsAPI using the provided query and API key."""
     try:
         url = f"https://api.worldnewsapi.com/search-news?api-key={api_key}&text={query}&language={language}&number={page_size}"
         response = requests.get(url, timeout=10)
@@ -124,12 +135,12 @@ def fetch_from_worldnewsapi(query, api_key, language=LANGUAGE, page_size=PAGE_SI
         return []
 
 
-""" The final function fetch_news_articles aggregates articles from all enabled sources based on the provided query. 
-It has several if statements to check which sources are enabled in NEWS_API_SOURCES """
+""" 
+The final function, fetch_news_articles, collects articles from all enabled sources based on the provided query.
+It includes various if statements to check which sources are active in NEWS_API_SOURCES.
+"""
 def fetch_news_articles(query: str) -> List[NewsArticle]:
-    """
-    Fetches news articles from all enabled sources in NEWS_API_SOURCES.
-    """
+    """ Fetches news articles from all enabled sources in NEWS_API_SOURCES."""
     all_articles = []
     if not NEWS_API_SOURCES:
         # fallback to NewsAPI.org with config key if NEWS_API_SOURCES not found
